@@ -44,8 +44,9 @@ def check_file(dir, file):
                     print("[+] Found - %s" % full_path)
                     found.append(full_path)
 
-    elif file[-1] == '*':
-        path = os.path.join(dir, file[:-1])
+    elif '*' in file:
+        path = os.path.join(dir, file[:file.index('*')])
+        extension = file[file.index('*')+2:]
         if os.path.isdir(path):
             for f in os.listdir(path):
                 full_path = os.path.join(path, f)
@@ -54,8 +55,9 @@ def check_file(dir, file):
                 if os.path.isdir(full_path):
                     continue
 
-                print("[+] Found - %s" % full_path)
-                found.append(full_path)
+                if full_path.endswith(extension):
+                    print("[+] Found - %s" % full_path)
+                    found.append(full_path)
         pass
     else:
         path = os.path.join(dir, file)
